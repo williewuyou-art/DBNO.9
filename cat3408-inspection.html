@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大本9號左俥｜CAT 3408 漏油位置互動解剖圖</title>
+<style>
+:root{--bg:#101820;--panel:#182630;--panel2:#203541;--text:#eef5f7;--muted:#a9bbc4;--yellow:#f4c542;--orange:#ff8a3d;--red:#ff5b5b;--line:#49616d;--green:#6dd6a3}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#0b1218,#172833);color:var(--text);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+header{padding:24px clamp(16px,4vw,48px) 14px;border-bottom:1px solid #31434d}
+h1{margin:0 0 8px;font-size:clamp(23px,3vw,34px)}header p{margin:0;color:var(--muted);line-height:1.6}
+.wrap{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr);gap:18px;padding:20px clamp(12px,3vw,36px) 28px;max-width:1500px;margin:auto}
+.card{background:rgba(24,38,48,.94);border:1px solid #334955;border-radius:16px;overflow:hidden;box-shadow:0 14px 40px #0003}
+.cardhead{padding:15px 18px;border-bottom:1px solid #334955;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.cardhead h2{font-size:17px;margin:0}.tag{font-size:12px;padding:5px 9px;border-radius:999px;background:#3d3020;color:#ffd77c;border:1px solid #73592a}
+.diagram{padding:8px;background:radial-gradient(ellipse at center,#233944 0,#14232c 70%);min-height:400px}
+svg{width:100%;height:auto;display:block;min-height:300px}
+.hotspot{cursor:pointer;outline:none}.hotspot circle{fill:#ffbd3e;stroke:#fff3c7;stroke-width:2.5;filter:drop-shadow(0 0 5px #ffb52eaa);transition:.15s}
+.hotspot text{font-size:13px;fill:#fff;font-weight:700;paint-order:stroke;stroke:#14232c;stroke-width:3px;stroke-linejoin:round}
+.hotspot:hover circle,.hotspot:focus circle,.hotspot.active circle{fill:#ff5b5b;r:13}
+.hotspot.active text{fill:#ffe2a3}
+.legend{padding:12px 18px;color:var(--muted);font-size:12px;line-height:1.7;border-top:1px solid #334955}
+.detail{padding:20px}.detail h2{font-size:22px;margin:0 0 8px}.detail .sub{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:16px}
+.severity{display:inline-block;border-radius:6px;padding:5px 9px;font-size:12px;font-weight:700;margin-bottom:15px}
+.sev-high{background:#542b2b;color:#ffaaaa;border:1px solid #914343}.sev-mid{background:#4a3a20;color:#ffda86;border:1px solid #80652d}.sev-low{background:#1f4438;color:#9af0c8;border:1px solid #36745d}
+.detail h3{font-size:14px;color:#f4c542;margin:17px 0 7px}.detail p,.detail li{font-size:14px;line-height:1.75;color:#d7e2e7}.detail ul{padding-left:20px;margin:6px 0}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 20px 20px}.quick button{background:#203541;color:#eaf4f7;border:1px solid #3a5663;border-radius:9px;padding:10px;text-align:left;cursor:pointer;font:inherit;font-size:12px}.quick button:hover{border-color:var(--yellow);background:#2a414d}
+.notice{max-width:1500px;margin:0 auto 28px;padding:0 clamp(12px,3vw,36px)}.noticebox{padding:15px 18px;border-radius:12px;border:1px solid #745b2c;background:#30291d;color:#f7e4b7;line-height:1.7;font-size:13px}
+footer{text-align:center;color:#8196a1;font-size:12px;padding:0 16px 24px}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.diagram{min-height:0}.detail{padding:18px}.quick{padding-top:0}}
+</style>
+</head>
+<body>
+<header>
+  <h1>大本9號左俥｜CAT 3408 引擎檢修與漏油影響互動圖</h1>
+  <p>點選圖上的黃色標記，查看漏油位置的影響與檢查方向，也可查看第7或第8缸氣門搖臂間隙異音的檢修重點。此圖為<strong>維修判讀用示意圖</strong>，不是 Caterpillar 原廠零件爆炸圖。</p>
+</header>
+<main class="wrap">
+<section class="card">
+ <div class="cardhead"><h2>引擎側視示意｜漏油點定位</h2><span class="tag">點擊標記查看說明</span></div>
+ <div class="diagram">
+ <svg viewBox="0 0 900 590" role="img" aria-label="CAT 3408 引擎漏油位置示意圖">
+ <defs>
+  <linearGradient id="metal" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#a9bbc2"/><stop offset=".45" stop-color="#647984"/><stop offset="1" stop-color="#344a55"/></linearGradient>
+  <linearGradient id="yellow" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#ffd95d"/><stop offset="1" stop-color="#d89022"/></linearGradient>
+  <pattern id="ribs" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M2 0V13" stroke="#d5e0e4" stroke-opacity=".3" stroke-width="3"/></pattern>
+ </defs>
+ <!-- ground and engine mounts -->
+ <path d="M60 500H840" stroke="#4d6875" stroke-width="2" stroke-dasharray="7 8"/>
+ <path d="M180 445L160 510H230L250 445M640 445L620 510H690L710 445" fill="#344b56" stroke="#90a4ad" stroke-width="3"/>
+ <!-- block -->
+ <path d="M190 205 Q190 185 215 185 H625 Q650 185 650 210 V430 Q650 452 625 452 H215 Q190 452 190 430Z" fill="url(#metal)" stroke="#c4d0d5" stroke-width="3"/>
+ <rect x="205" y="220" width="430" height="210" fill="url(#ribs)" opacity=".8"/>
+ <path d="M220 245H615M220 275H615M220 305H615M220 335H615M220 365H615M220 395H615" stroke="#253943" stroke-width="4" opacity=".7"/>
+ <!-- heads -->
+ <path d="M220 130H610Q630 130 630 150V195H205V150Q205 130 220 130Z" fill="#8e9fa6" stroke="#d8e2e5" stroke-width="3"/>
+ <path d="M225 143H605V180H225Z" fill="url(#ribs)"/>
+ <path d="M225 120L240 103H595L610 120V135H225Z" fill="url(#yellow)" stroke="#ffe59a" stroke-width="2"/>
+ <path d="M245 110H590" stroke="#8a5b16" stroke-width="3" stroke-dasharray="8 5"/>
+ <!-- injector/lines -->
+ <g stroke="#cbd7db" stroke-width="5" fill="none"><path d="M280 100V75L300 55V35"/><path d="M355 100V70L375 50V35"/><path d="M430 100V70L450 50V35"/><path d="M505 100V70L525 50V35"/><path d="M580 100V75L600 55V35"/></g>
+ <g fill="#667e89" stroke="#d4dfe3" stroke-width="2"><rect x="270" y="72" width="20" height="28" rx="3"/><rect x="345" y="67" width="20" height="33" rx="3"/><rect x="420" y="67" width="20" height="33" rx="3"/><rect x="495" y="67" width="20" height="33" rx="3"/><rect x="570" y="72" width="20" height="28" rx="3"/></g>
+ <!-- front timing cover left -->
+ <path d="M125 225Q125 205 150 205H190V430H150Q125 430 125 405Z" fill="#8a9ca5" stroke="#d4dfe3" stroke-width="3"/>
+ <circle cx="158" cy="290" r="30" fill="#3b515d" stroke="#c3d0d5" stroke-width="4"/><circle cx="158" cy="290" r="14" fill="#a8b8be"/>
+ <circle cx="158" cy="370" r="19" fill="#3b515d" stroke="#c3d0d5" stroke-width="4"/>
+ <!-- rear housing -->
+ <path d="M650 230H690Q715 230 715 255V400Q715 425 690 425H650Z" fill="#6f8791" stroke="#d4dfe3" stroke-width="3"/>
+ <circle cx="682" cy="326" r="29" fill="#344b56" stroke="#bac9cf" stroke-width="4"/><circle cx="682" cy="326" r="12" fill="#9aadb5"/>
+ <!-- turbo and oil lines -->
+ <circle cx="745" cy="170" r="48" fill="#526c78" stroke="#d6e1e5" stroke-width="4"/><circle cx="745" cy="170" r="25" fill="#263e49" stroke="#b8c8ce" stroke-width="4"/><path d="M745 145V195M720 170H770M727 152L763 188M763 152L727 188" stroke="#91a6af" stroke-width="3"/>
+ <path d="M704 210L670 245L650 245" fill="none" stroke="#d6b56b" stroke-width="7"/><path d="M700 220L675 260L650 260" fill="none" stroke="#8e9fa6" stroke-width="4"/>
+ <!-- oil filter/cooler -->
+ <rect x="70" y="330" width="48" height="105" rx="10" fill="#c3cdd1" stroke="#f0f4f5" stroke-width="3"/><path d="M77 350H111M77 365H111M77 380H111M77 395H111M77 410H111" stroke="#647984" stroke-width="3"/>
+ <rect x="70" y="290" width="48" height="30" rx="4" fill="#637d88" stroke="#cbd7dc" stroke-width="2"/>
+ <path d="M118 305H140V335" stroke="#d7b76f" stroke-width="6" fill="none"/>
+ <!-- oil pump/accessory -->
+ <circle cx="265" cy="455" r="27" fill="#506a76" stroke="#d1dce0" stroke-width="3"/><circle cx="265" cy="455" r="10" fill="#aebdc3"/>
+ <rect x="320" y="453" width="100" height="35" rx="7" fill="#6d838d" stroke="#c9d5da" stroke-width="3"/>
+ <!-- oil pan -->
+ <path d="M240 450H600L575 495H270Z" fill="#263b45" stroke="#8ea2ab" stroke-width="3"/>
+ <path d="M270 465H580" stroke="#536b76" stroke-width="3"/>
+ <text x="420" y="486" text-anchor="middle" fill="#b8c8ce" font-size="13">油底殼</text>
+ <!-- callout labels -->
+ <g fill="#dce7eb" font-size="14" font-weight="600">
+  <text x="285" y="20">噴油器／缸頭上方</text><text x="335" y="95">汽門室蓋</text>
+  <text x="300" y="175">缸頭墊片周邊</text><text x="22" y="270">機油濾清器</text>
+  <text x="22" y="285">／冷卻器座</text><text x="55" y="465">機油冷卻器</text>
+  <text x="95" y="190">前齒輪室</text><text x="708" y="105">渦輪增壓器</text>
+  <text x="713" y="235">渦輪供油／回油管</text><text x="706" y="365">飛輪殼／後油封</text>
+  <text x="245" y="530">前曲軸油封</text><text x="330" y="560">機油泵／管接頭（示意）</text>
+  <text x="480" y="455">側蓋／檢修蓋</text>
+ </g>
+ <!-- hotspot points -->
+ <g class="hotspot" tabindex="0" role="button" aria-label="汽門室蓋墊片漏油" data-id="valve" transform="translate(420 125)"><circle r="10"/><text x="15" y="-8">1</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="缸頭墊片或缸頭接合面" data-id="head" transform="translate(600 190)"><circle r="10"/><text x="14" y="-7">2</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="前齒輪室蓋" data-id="frontcover" transform="translate(150 235)"><circle r="10"/><text x="-23" y="-12">3</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="前曲軸油封" data-id="frontseal" transform="translate(158 370)"><circle r="10"/><text x="-22" y="25">4</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="後曲軸油封" data-id="rear" transform="translate(682 326)"><circle r="10"/><text x="17" y="-12">5</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="渦輪增壓器供回油" data-id="turbo" transform="translate(745 170)"><circle r="10"/><text x="15" y="-12">6</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="機油濾清器座" data-id="filter" transform="translate(95 310)"><circle r="10"/><text x="-22" y="-12">7</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="機油冷卻器" data-id="cooler" transform="translate(95 420)"><circle r="10"/><text x="-22" y="24">8</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="側蓋和檢修蓋" data-id="side" transform="translate(610 370)"><circle r="10"/><text x="15" y="25">9</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="機油泵與油道接頭" data-id="pump" transform="translate(265 455)"><circle r="10"/><text x="-22" y="27">10</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="機油壓力感知器與外部油管" data-id="sensor" transform="translate(355 455)"><circle r="10"/><text x="14" y="26">11</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="油尺管與加油口" data-id="dipstick" transform="translate(215 215)"><circle r="10"/><text x="-25" y="-12">12</text></g>
+ <g class="hotspot" tabindex="0" role="button" aria-label="第7或第8缸氣門搖臂間隙與異音" data-id="rocker" transform="translate(505 125)"><circle r="10"/><text x="15" y="-12">13</text></g>
+ </svg>
+ </div>
+ <div class="legend">操作：點選 1–12 黃色標記；也可用鍵盤 Tab 移動後按 Enter。標記位置為概念定位，實際配置依 CAT 3408 版本、附件及船用安裝方式而異。</div>
+</section>
+<aside class="card">
+ <div class="cardhead"><h2>漏油位置診斷卡</h2><span class="tag" id="currentTag">尚未選取</span></div>
+ <div class="detail" id="detail">
+  <h2>先選擇一個漏油位置</h2>
+  <div class="sub">如果「除油底殼外幾乎所有位置都漏油」，不要直接假設每個墊片都同時老化。要先排查共同原因，例如曲軸箱通風受阻、曲軸箱壓力過高、機油加注過量、回油不順或長期缺乏保養，再逐點確認真正漏點。</div>
+  <span class="severity sev-high">整體狀況：需優先查因</span>
+  <h3>初步判斷方向</h3>
+  <ul><li>先確認機油液位、機油壓力與漏油速度。</li><li>清潔引擎外表後，短時間運轉觀察「最先出油」的位置；上方漏油可能沿機體流到下方，造成多處漏油的假象。</li><li>若機油大量噴濺、機油壓力警報、排煙異常或油滴落在高溫排氣部件上，立即停機檢查。</li></ul>
+  <h3>選取位置後會顯示</h3><p>可能原因、對引擎的影響、建議檢查順序與風險等級。</p>
+ </div>
+ <div class="quick">
+  <button data-id="valve">1｜汽門室蓋</button><button data-id="head">2｜缸頭接合面</button>
+  <button data-id="frontcover">3｜前齒輪室蓋</button><button data-id="frontseal">4｜前曲軸油封</button>
+  <button data-id="rear">5｜後曲軸油封</button><button data-id="turbo">6｜渦輪供回油</button>
+  <button data-id="filter">7｜濾清器座</button><button data-id="cooler">8｜機油冷卻器</button>
+  <button data-id="side">9｜側蓋／檢修蓋</button><button data-id="pump">10｜機油泵／油道</button>
+  <button data-id="sensor">11｜感知器／外油管</button><button data-id="dipstick">12｜油尺管／加油口</button><button data-id="rocker">13｜7或8缸氣門搖臂間隙</button>
+ </div>
+</aside>
+</main>
+<div class="notice"><div class="noticebox"><strong>安全提醒：</strong>機油外漏可能導致潤滑油量下降、軸承損傷，或機油接觸排氣歧管／渦輪等高溫部件而起火。不要在運轉中用手找漏點，也不要在未確認壓力釋放前拆卸油管。此互動圖供初步溝通與檢修規劃，不可取代 CAT 3408 對應序號的維修手冊、壓力測試與現場判定。</div></div>
+<footer>CAT 3408 外部漏油點互動示意｜非原廠圖面｜診斷應以引擎序號、實際配置及現場檢查為準</footer>
+<script>
+const data={
+ valve:{name:"1｜汽門室蓋／汽門室蓋墊片",sev:"中度：通常先是外部滲漏",cls:"sev-mid",sub:"常見於缸頭上方，機油會沿缸頭側面往下流。",cause:["墊片硬化、壓縮變形或密封面有油泥／刮傷。","螺栓鎖付不均、通氣管堵塞或曲軸箱壓力偏高。"],effect:["通常先造成外部油污與機油消耗增加。","機油流到排氣歧管或渦輪附近時，有冒煙、異味甚至起火風險。","流到下方會讓人誤判缸體、側蓋也在漏。"],check:["先清潔上方並確認漏點是否從蓋緣開始。","檢查通氣管與接頭；依維修手冊規定的順序、扭力鎖付。"]},
+ head:{name:"2｜缸頭接合面／缸頭墊片周邊",sev:"高風險：需確認漏出的液體與位置",cls:"sev-high",sub:"缸頭接合面不應單憑油污就判定墊片損壞。",cause:["機油可能由上方汽門室蓋流下，形成接合面漏油假象。","若確定從接合面滲出，需查密封面、缸頭螺栓與墊片狀況；具體結構依版本而定。"],effect:["外漏會造成機油損失與表面污染。","若同時伴隨冷卻水異常、過熱、白煙或壓縮異常，可能涉及更嚴重的缸頭密封問題。"],check:["徹底清潔後由上往下追蹤油跡起點。","若伴隨過熱、冷卻水混油或燃燒異常，停止運轉並依手冊做進一步測試。"]},
+ frontcover:{name:"3｜前齒輪室／前蓋密封",sev:"中至高：依漏量與位置判定",cls:"sev-mid",sub:"前端蓋板周圍可能有墊片、密封膠或油封接合處。",cause:["密封墊老化、密封膠施工不良或螺栓鬆動。","前端油封漏油也可能沿前蓋外側流下。"],effect:["造成持續油污與機油液位下降。","若漏點鄰近皮帶或旋轉部件，可能污染傳動件並增加維修風險。"],check:["確認是蓋板接合縫，還是曲軸軸端油封。","清潔後觀察旋轉軸周圍是否呈放射狀甩油。"]},
+ frontseal:{name:"4｜前曲軸油封",sev:"高風險：持續漏油應盡快處理",cls:"sev-high",sub:"通常位於曲軸前端與前齒輪室／前蓋附近。",cause:["油封唇口磨耗、軸面磨損、安裝偏斜。","曲軸箱壓力過高會加劇油封滲漏。"],effect:["曲軸轉動時可能將機油甩得到處都是。","機油可能污染皮帶、皮帶輪或周邊附件，且漏量可能隨轉速增加。"],check:["檢查油封唇口、曲軸接觸面與軸向／徑向狀況。","同時測查曲軸箱通風與壓力，避免只換油封卻再次漏油。"]},
+ rear:{name:"5｜飛輪殼／後曲軸油封",sev:"高風險：通常工時較高",cls:"sev-high",sub:"後端油跡可能來自後曲軸油封，也可能是更上方的機油沿飛輪殼流下。",cause:["後曲軸油封磨耗、軸面磨損或安裝問題。","後端其他密封面或上方漏油向下流，造成誤判。"],effect:["機油可能流入飛輪殼或污染離合器／聯軸器附近（依船用傳動配置而異）。","若需更換後油封，可能涉及拆卸傳動端、飛輪殼或相關附件，工時通常較高。"],check:["清潔飛輪殼外部並由上往下追油跡。","確認漏油是否從曲軸中心附近出現；依機型手冊安排拆檢。"]},
+ turbo:{name:"6｜渦輪增壓器供油管／回油管與接頭",sev:"高風險：靠近高溫部件",cls:"sev-high",sub:"供油管有壓力；回油管則需保持通暢，兩者漏油原因不同。",cause:["管接頭鬆動、墊片／O-ring 老化、管線裂損。","回油管堵塞、折彎或坡度不當，可能造成渦輪中心殼積油並從密封處外漏。"],effect:["機油碰到渦輪殼或排氣部件可能冒煙、起火。","供油洩漏可能降低潤滑供應，損壞渦輪軸承；回油不順也可能造成渦輪漏油與排煙。"],check:["停機冷卻後檢查供油接頭、回油管、墊片與管路支撐。","確認回油管沒有堵塞或折扁；不得在運轉中用手觸摸查漏。"]},
+ filter:{name:"7｜機油濾清器／濾清器座／轉接座",sev:"高風險：可能快速失油",cls:"sev-high",sub:"濾芯與座體接合處常見外漏，需分辨是濾芯密封還是座體本身。",cause:["濾芯墊圈重複使用、雙墊圈、安裝不當或濾芯規格錯誤。","座體密封圈硬化、螺栓鬆動或座體裂損。"],effect:["運轉時可能持續失油；嚴重時機油壓力快速下降。","機油壓力不足會使軸承、凸輪與其他潤滑部位受損。"],check:["停機確認油位與機油壓力警報紀錄。","檢查濾芯墊圈是否有舊墊圈黏在座面、座面是否清潔，再依規定安裝。"]},
+ cooler:{name:"8｜機油冷卻器本體／端蓋／油水接口",sev:"高風險：要留意內漏與外漏",cls:"sev-high",sub:"外部油跡可能出自冷卻器端蓋、密封圈或接管；內部失效則不一定會在外面看到。",cause:["端蓋墊片或 O-ring 老化、螺栓鬆動、冷卻器芯體腐蝕或裂損。","油壓與冷卻水壓差可能造成油水互串，需依設計確認。"],effect:["外漏會造成機油流失。","若發生油水互串，可能看到冷卻水浮油或機油乳化；嚴重時影響潤滑與冷卻。"],check:["檢查冷卻器周邊接合面、管接頭與冷卻水是否有油膜。","必要時按手冊拆檢並做適當壓力測試；不可任意超過規定測試壓力。"]},
+ side:{name:"9｜缸體側蓋／檢修蓋／推桿室等密封處",sev:"中度：先確認油源",cls:"sev-mid",sub:"引擎側面多個蓋板與接合面可能有滲漏，但油跡也可能從上方流下。",cause:["墊片硬化、密封膠失效、螺栓鬆動或密封面受損。","曲軸箱壓力偏高會使多處弱點同時滲油。"],effect:["外部油污、機油消耗增加；油滴若落在熱表面可能產生煙霧或火災風險。","多個側面同時出油時，應優先懷疑共同原因，而非立刻逐片換墊片。"],check:["清潔後分區觀察油跡最先出現的位置。","確認曲軸箱通氣、油位及機油規格，之後再判定墊片是否需更換。"]},
+ pump:{name:"10｜機油泵／油道接頭／密封面",sev:"高風險：需確認機油壓力",cls:"sev-high",sub:"位置與可見程度依引擎配置不同；此處代表外部可見的泵體或油道接合位置。",cause:["泵體接合面密封失效、管接頭鬆動或密封圈老化。","若油泵本體或油道有裂損，需按維修手冊進一步判定。"],effect:["可能造成外漏與機油壓力不足。","若機油壓力低於規範，軸承等潤滑部位可能迅速受損。"],check:["核對機油壓力表／警報及實測值是否符合對應序號手冊。","檢查接頭與密封面；若壓力異常，不應只補油後繼續工作。"]},
+ sensor:{name:"11｜機油壓力感知器、油壓開關與外部油管",sev:"中至高：零件小但可能失油",cls:"sev-mid",sub:"感知器螺牙、密封墊圈與外接油管接頭都可能滲油。",cause:["感知器本體破損、螺牙密封不良、接頭鬆動或管線疲勞。","接頭規格不合或過度鎖緊也可能造成裂損。"],effect:["可能形成看似機體多處漏油的油跡。","若是壓力油管或接頭漏油，可能造成機油流失；感知器故障也可能讓壓力讀值失真。"],check:["確認油跡源頭是感知器本體、螺牙還是管接頭。","使用正確規格密封方式與扭力；漏油與油壓讀值異常要分開驗證。"]},
+ dipstick:{name:"12｜油尺管座／加油口蓋／曲軸箱通氣",sev:"中度但具診斷價值",cls:"sev-mid",sub:"這些位置若出油，可能是密封不良，也可能是曲軸箱內壓力異常的線索。",cause:["油尺管 O-ring、加油口蓋墊片老化或固定鬆動。","機油加注過量、曲軸箱通氣管阻塞、吹漏氣量過大。"],effect:["機油可能由多個密封薄弱處被擠出，因此出現「到處都漏」的狀況。","若曲軸箱壓力過高，單純更換墊片通常無法根治。"],check:["核對油尺液位與規定量，確認機油沒有加過量。","檢查曲軸箱通氣管是否阻塞、折彎或積油；依手冊測量曲軸箱壓力／吹漏氣。"]},
+ rocker:{name:"13｜第7或第8缸氣門搖臂間隙／異音",sev:"需檢修：異音過大應確認間隙",cls:"sev-mid",sub:"左俥 CAT 3408 若第7或第8缸氣門機構聲音明顯過大，應依該序號維修手冊檢查氣門搖臂與氣門桿端間隙。僅憑聲音不能直接判定一定是間隙過大。",cause:["氣門間隙超出規範、調整螺絲或鎖緊螺帽鬆動。","搖臂、搖臂軸、推桿、氣門橋或氣門桿端磨耗／潤滑不良。","若聲音只集中在單一汽缸，也應確認該缸的氣門機構零件與安裝狀況。"],effect:["間隙過大可能造成敲擊聲、氣門升程與開啟時序偏差，並增加接觸面磨耗。","間隙過小則可能造成氣門無法完全關閉、壓縮不足、啟動或運轉異常，嚴重時可能燒蝕氣門。","持續異音若伴隨失火、功率下降或金屬屑，應停止運轉並進一步檢查。"],check:["確認異音確實來自第7或第8缸的氣門機構，而非噴油器、排氣漏氣或其他附件。","依 CAT 3408 對應序號的維修手冊，將引擎置於指定調整位置並按規範測量冷態／熱態間隙；不要憑聲音估調。","調整後依規定扭力鎖緊、重新複測間隙，再啟動確認異音是否消失。","具體間隙數值需以該台引擎序號、規格及手冊為準，不能直接套用其他版本數值。"]}
+};
+function show(id){
+ const d=data[id]; if(!d)return;
+ document.querySelectorAll('.hotspot').forEach(x=>x.classList.toggle('active',x.dataset.id===id));
+ document.getElementById('currentTag').textContent=d.sev.split("：")[0];
+ const li=(arr)=>arr.map(x=>`<li>${x}</li>`).join('');
+ document.getElementById('detail').innerHTML=`<h2>${d.name}</h2><div class="sub">${d.sub}</div><span class="severity ${d.cls}">${d.sev}</span><h3>可能原因</h3><ul>${li(d.cause)}</ul><h3>漏油可能造成的影響</h3><ul>${li(d.effect)}</ul><h3>建議檢查方向</h3><ul>${li(d.check)}</ul>`;
+}
+document.querySelectorAll('.hotspot,.quick button').forEach(el=>{
+ el.addEventListener('click',()=>show(el.dataset.id));
+ el.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&el.classList.contains('hotspot')){e.preventDefault();show(el.dataset.id)}});
+});
+</script>
+</body></html>

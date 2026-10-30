@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>大本9號｜船舶配載與壓載試算</title>
+<style>
+:root{--navy:#12334a;--blue:#176b87;--bg:#f2f6f8;--line:#d2dfe6;--ink:#203542;--green:#16734b;--amber:#a85a00;--red:#a42d2d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}
+header{background:linear-gradient(120deg,#102a40,#176b87);color:#fff;padding:18px}header h1{font-size:1.35rem;margin:0 0 5px}header p{margin:0;color:#dbeaf1;font-size:.9rem}
+main{max-width:1440px;margin:auto;padding:13px}.alert{padding:11px 13px;background:#fff2df;border:1px solid #edc18b;border-left:5px solid var(--amber);border-radius:8px;margin-bottom:13px;font-size:.88rem}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.tabs button{background:#dfe9ee;color:#254657}.tabs button.active{background:var(--blue);color:white}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.9fr);gap:13px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px;min-width:0;box-shadow:0 2px 8px #12324a08}.card h2{font-size:1.04rem;color:var(--navy);margin:0 0 10px}.card h3{font-size:.93rem;margin:13px 0 7px}
+svg{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:9px;background:#f9fcfd;touch-action:none}
+.hull{fill:#fbfdfe;stroke:#25485a;stroke-width:3}.tank{stroke:#236d8a;stroke-width:1.5;fill:#dceef6}.tank.ballast{fill:#d8f0e2;stroke:#24754e}.tank.oil{fill:#ffedc6;stroke:#a66a00}.tank.fresh{fill:#dce8ff;stroke:#315ea4}.tank.void{fill:#eef0f2;stroke:#7c8991;stroke-dasharray:4 3}.tank.selected{stroke:#d22;stroke-width:3}
+.cargo{fill:#f5c267;stroke:#855400;stroke-width:2;cursor:grab}.cargo.selected{stroke:#c22;stroke-width:3}.label{font-size:12px;fill:#203542;pointer-events:none}.tiny{font-size:10px;fill:#506c79;pointer-events:none}.mini{font-size:11px;color:#617986}
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}label{display:block;font-size:.82rem;font-weight:650;margin-bottom:4px}input,select{width:100%;padding:8px;border:1px solid #b8cbd5;border-radius:7px;font:inherit;color:var(--ink);background:white}input:focus{outline:2px solid #9ad6e7}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px;font-size:.83rem}th,td{padding:7px;border-bottom:1px solid #e2eaee;text-align:left;vertical-align:middle}th{background:#eef4f7;color:#28495b}td input{min-width:70px;padding:6px}
+button{border:0;border-radius:8px;background:var(--blue);color:#fff;font:inherit;font-weight:700;padding:9px 11px;cursor:pointer}button.secondary{background:#e5edf1;color:#254656}button.danger{background:#9f3333}.btnrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kpi{padding:9px;background:#f7fafb;border:1px solid var(--line);border-radius:8px}.kpi span{display:block;color:#617987;font-size:.76rem}.kpi strong{display:block;font-size:1.08rem;margin-top:3px;overflow-wrap:anywhere}
+.status{padding:10px;border-radius:8px;background:#fff2df;color:#854400;font-size:.85rem;margin-top:10px}.status.good{background:#e7f5ed;color:#145c3b}.status.bad{background:#fdeaea;color:#8b2626}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#102a40;color:#e9f4f8;padding:12px;border-radius:8px;font-size:.82rem}
+.cargo-row{display:grid;grid-template-columns:minmax(100px,1fr) 76px 76px 76px 34px;gap:5px;align-items:center;margin:6px 0}.cargo-row input{padding:6px;min-width:0}.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.77rem;color:#506a78;margin:7px 0}.dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px}
+.hint{font-size:.79rem;color:#617987;line-height:1.5}.section{margin-top:13px}
+@media(max-width:930px){.layout{grid-template-columns:1fr}}@media(max-width:500px){main{padding:8px}.card{padding:9px}.controls{grid-template-columns:1fr 1fr}.cargo-row{grid-template-columns:minmax(75px,1fr) 58px 58px 58px 30px;gap:3px}.cargo-row input{font-size:.8rem;padding:5px}}
+@media print{.btnrow,.tabs{display:none}body{background:white}.layout{display:block}.card{break-inside:avoid;margin-bottom:10px}}
+</style>
+</head>
+<body>
+<header><h1>大本9號｜船舶配載與壓載試算</h1><p>已按參考 PDF 的 Tank Arrangement 固定油／水櫃清單建立；拖曳貨物、輸入現有油量與壓載水量，查看配平試算。</p></header>
+<main>
+<div class="alert"><b>使用限制：</b>固定艙名／容積依參考檔第 8 頁「Tank Arrangement」整理；艙位座標是依圖面相對位置建立的操作模型；本版已統一俯視圖與計算座標：左舷 y−、右舷 y＋（畫面下方為右舷），仍需用原廠完整圖面校正。系統只做初步重量矩與簡化壓載候選計算，不是經認證的穩度軟體。不可直接依建議操作閥門或泵浦；實際配載須由船長／合格人員依裝載手冊、實測吃水、自由液面及穩度資料覆核。</div>
+<div class="tabs"><button class="active" onclick="showTab('plan',this)">① 甲板配貨</button><button onclick="showTab('tanks',this)">② 油／水櫃</button><button onclick="showTab('result',this)">③ 配平結果</button></div>
+<div class="layout">
+<section class="card" id="plan">
+<h2>船舶俯視配置圖｜拖曳黃色貨物調整位置</h2>
+<svg id="shipSvg" viewBox="0 0 820 440" aria-label="Damen Multi Cat 1908 示意船舶俯視圖">
+<defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#e4edf1" stroke-width="1"/></pattern></defs>
+<rect width="820" height="440" fill="url(#grid)"/>
+<path class="hull" d="M75 73 Q47 80 47 111 L47 328 Q50 365 85 370 L724 370 Q769 363 780 320 L780 119 Q769 79 724 73 Z"/>
+<path d="M87 91H713V349H87Z" fill="none" stroke="#b7c8d1" stroke-dasharray="5 4"/>
+<text x="413" y="35" text-anchor="middle" class="label" style="font-size:16px;font-weight:bold">船尾 ← x（縱向）→ 船首</text>
+<text x="22" y="210" transform="rotate(-90 22 210)" class="tiny">左舷 y−</text><text x="22" y="300" transform="rotate(-90 22 300)" class="tiny">右舷 y＋</text>
+<!-- tank layer reflects tank arrangement sheet, coordinates normalized to ship length -->
+<g id="tankLayer"></g>
+<!-- deck equipment approximations -->
+<rect x="160" y="105" width="115" height="62" rx="3" fill="#e8eef1" stroke="#9eb1bb"/><text x="217" y="132" text-anchor="middle" class="tiny">駕駛台／上層結構</text><text x="217" y="147" text-anchor="middle" class="tiny">示意</text>
+<rect x="330" y="98" width="74" height="44" rx="3" fill="#e8eef1" stroke="#9eb1bb"/><text x="367" y="124" text-anchor="middle" class="tiny">設備</text>
+<rect x="500" y="102" width="92" height="48" rx="3" fill="#e8eef1" stroke="#9eb1bb"/><text x="546" y="130" text-anchor="middle" class="tiny">甲板設備</text>
+<g id="cargoLayer"></g>
+<text x="413" y="400" text-anchor="middle" class="tiny">艙櫃以顏色標示：綠＝壓載水；黃＝燃油；藍＝淡水；灰＝空艙／污泥／污水。</text>
+<text x="413" y="418" text-anchor="middle" class="tiny">船圖為依參考總布置／Tank Arrangement 重繪的示意圖，非比例施工圖。</text>
+</svg>
+<div class="legend"><span><i class="dot" style="background:#d8f0e2"></i>壓載水</span><span><i class="dot" style="background:#ffedc6"></i>燃油</span><span><i class="dot" style="background:#dce8ff"></i>淡水</span><span><i class="dot" style="background:#f5c267"></i>貨物</span></div>
+<div class="btnrow"><button onclick="addCargo()">＋新增貨物</button><button class="secondary" onclick="resetCargo()">重設貨物</button><button class="secondary" onclick="calculate();showTab('result',document.querySelectorAll('.tabs button')[2])">計算並看結果 →</button></div>
+<h3>貨物清單（重量噸、x/y 位置 m）</h3><div id="cargoList"></div>
+<p class="hint">船長參數預設為 18.70 m、船寬 8.00 m，參考檔總布置頁可辨識的主尺度；拖曳位置是示意座標。x=0 為船尾、x 增加往船首；y 正值為右舷、負值為左舷。</p>
+</section>
+<div>
+<section class="card">
+<h2>船舶基準與配平目標</h2>
+<div class="controls">
+<div><label>船長 L（m）</label><input id="length" type="number" value="18.7" step=".01"></div>
+<div><label>船寬 B（m）</label><input id="beam" type="number" value="8.0" step=".01"></div>
+<div><label>基準排水量（噸）</label><input id="baseDisp" type="number" value="120" min="1" step=".1"></div>
+<div><label>基準 LCG（m，自船尾）</label><input id="baseLcg" type="number" value="8.5" step=".01"></div>
+<div><label>基準 TCG（m，右舷正）</label><input id="baseTcg" type="number" value="0" step=".01"></div>
+<div><label>海水密度（噸/m³）</label><input id="seaRho" type="number" value="1.025" min=".95" max="1.05" step=".001"></div>
+<div><label>LCF（m，自船尾）</label><input id="lcf" type="number" value="8.5" step=".01"></div>
+<div><label>MCT 1cm（噸·m/cm）</label><input id="mct" type="number" value=".5" min=".01" step=".01"></div>
+<div><label>TPC（噸/cm）</label><input id="tpc" type="number" value=".2" min=".01" step=".01"></div>
+<div><label>GM（m，橫向穩度參數）</label><input id="gm" type="number" value=".8" min=".01" step=".01"></div>
+<div><label>目標縱傾角（度，艉沉為正）</label><input id="targetTrim" type="number" value="0" step=".1"></div>
+<div><label>目標橫傾（度，右舷沉為正）</label><input id="targetHeel" type="number" value="0" step=".1"></div>
+</div>
+<p class="hint">基準排水量與重心應代表「不含本頁輸入貨物、油櫃液體、壓載水」的同一基準狀態；若你手上的排水量已包含這些重量，請先調整基準避免重複計算。</p>
+</section>
+<section class="card section" id="tanks">
+<h2>固定艙櫃參數｜參考檔 Tank Arrangement</h2>
+<div class="tablewrap"><table id="tankTable"><thead><tr><th>編號／艙名</th><th>容量 m³</th><th>目前液量 m³</th><th>密度 t/m³</th><th>x m</th><th>y m</th><th>計入重量 t</th></tr></thead><tbody></tbody></table></div>
+<div class="btnrow"><button class="secondary" onclick="resetTankVolumes()">清空目前液量</button><button class="secondary" onclick="restoreTankParams()">還原固定艙參數</button></div>
+<p class="hint">參考檔第 8 頁可辨識的艙櫃及容積：1 Water ballast 約 11.5；2 Cargo fuel oil 約 26.6；3 Cargo fuel oil 約 18.7；4 Fuel oil 約 7.5；5 Water ballast 約 8.0；6 Freshwater 約 18.5；7 Water ballast 約 8.0；8、9 Void；10 Sludge 約 0.6；11 Sewage 約 1.13 m³。圖上容積前的符號可能表示約值，請以原廠資料核對。污泥／污水密度預設為 1.0，燃油密度預設 0.85，淡水 1.0。</p>
+</section>
+<section class="card section" id="result">
+<h2>配平試算結果</h2>
+<div class="kpis">
+<div class="kpi"><span>估算排水量（噸）</span><strong id="oDisp">—</strong></div>
+<div class="kpi"><span>合成 LCG（m）</span><strong id="oLcg">—</strong></div>
+<div class="kpi"><span>合成 TCG（m）</span><strong id="oTcg">—</strong></div>
+<div class="kpi"><span>估算縱傾角（度）</span><strong id="oTrim">—</strong></div>
+<div class="kpi"><span>估算橫傾（度）</span><strong id="oHeel">—</strong></div>
+<div class="kpi"><span>相對基準平均吃水變化（cm）</span><strong id="oDraft">—</strong></div>
+</div>
+<h3>建議壓載水量（候選值，不是操作指令）</h3><pre id="summary">輸入貨物及液量後按「計算配平」。</pre>
+<div class="btnrow"><button onclick="calculate()">計算配平</button><button class="secondary" onclick="window.print()">列印／另存 PDF</button><button class="secondary" onclick="saveState()">儲存目前設定</button><button class="secondary" onclick="loadState()">載入已儲存設定</button></div>
+<div id="status" class="status">目前為示意參數，請先校正實船資料。</div>
+</section>
+</div>
+</div>
+</main>
+<script>
+const initialTanks=[
+{id:1,name:"Water ballast 1（艏部）",type:"ballast",cap:11.5,v:0,rho:1.025,x:17.2,y:0.15},
+{id:2,name:"Cargo fuel oil 2",type:"oil",cap:26.6,v:0,rho:.85,x:14.1,y:0},
+{id:3,name:"Cargo fuel oil 3",type:"oil",cap:18.7,v:0,rho:.85,x:11.5,y:0},
+{id:4,name:"Fuel oil 4",type:"oil",cap:7.5,v:0,rho:.85,x:9.5,y:-.5},
+{id:5,name:"Water ballast 5（艉部左舷側）",type:"ballast",cap:8,v:0,rho:1.025,x:2.3,y:-2.1},
+{id:6,name:"Freshwater 6",type:"fresh",cap:18.5,v:0,rho:1,x:3.7,y:0},
+{id:7,name:"Water ballast 7（艉部右舷側）",type:"ballast",cap:8,v:0,rho:1.025,x:2.3,y:2.1},
+{id:8,name:"Void 8（空艙）",type:"void",cap:0,v:0,rho:0,x:3.1,y:-.9},
+{id:9,name:"Void 9（空艙）",type:"void",cap:0,v:0,rho:0,x:3.1,y:.9},
+{id:10,name:"Sludge 10",type:"other",cap:.6,v:0,rho:1,x:9.2,y:-.6},
+{id:11,name:"Sewage 11",type:"other",cap:1.13,v:0,rho:1,x:6.2,y:0}
+];
+let tanks=JSON.parse(JSON.stringify(initialTanks));
+let cargo=[{name:"貨物 1",w:5,x:7,y:-1},{name:"貨物 2",w:3,x:12,y:1}];
+let drag=null;
+const $=id=>document.getElementById(id),fmt=(v,n=2)=>Number.isFinite(v)?v.toFixed(n):"—";
+function showTab(id,btn){document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");if(id==="plan")$("plan").scrollIntoView({behavior:"smooth",block:"start"});else $(id).scrollIntoView({behavior:"smooth",block:"start"})}
+function xyToSvg(x,y){let L=+$("length").value||18.7,B=+$("beam").value||8;return{x:92+x/L*630,y:220+y/B*210}}
+function svgToXY(x,y){let L=+$("length").value||18.7,B=+$("beam").value||8;return{x:Math.max(0,Math.min(L,(x-92)/630*L)),y:Math.max(-B/2,Math.min(B/2,(y-220)/210*B))}}
+function svgPoint(e){let s=$("shipSvg"),p=s.createSVGPoint();p.x=e.clientX;p.y=e.clientY;let q=p.matrixTransform(s.getScreenCTM().inverse());return{x:q.x,y:q.y}}
+function renderTanks(){let layer=$("tankLayer");layer.innerHTML="";tanks.forEach((t,i)=>{if(t.type==="void"||t.type==="other")return;let p=xyToSvg(t.x,t.y),g=document.createElementNS("http://www.w3.org/2000/svg","g");let width=t.type==="oil"?Math.max(26,t.cap*2.3):Math.max(26,t.cap*2.2);let height=t.type==="oil"?38:30;g.setAttribute("transform",`translate(${p.x} ${p.y})`);let r=document.createElementNS(g.namespaceURI,"rect");r.setAttribute("x",-width/2);r.setAttribute("y",-height/2);r.setAttribute("width",width);r.setAttribute("height",height);r.setAttribute("rx",3);r.setAttribute("class","tank "+t.type);g.appendChild(r);let tx=document.createElementNS(g.namespaceURI,"text");tx.setAttribute("text-anchor","middle");tx.setAttribute("y",4);tx.setAttribute("class","tiny");tx.textContent=String(t.id);g.appendChild(tx);let title=document.createElementNS(g.namespaceURI,"title");title.textContent=`${t.name}：${t.v} / ${t.cap} m³`;g.appendChild(title);layer.appendChild(g)})}
+function renderCargo(){let layer=$("cargoLayer");layer.innerHTML="";cargo.forEach((c,i)=>{let p=xyToSvg(c.x,c.y),g=document.createElementNS("http://www.w3.org/2000/svg","g");g.setAttribute("transform",`translate(${p.x} ${p.y})`);g.style.cursor="grab";let r=document.createElementNS(g.namespaceURI,"rect");r.setAttribute("x",-22);r.setAttribute("y",-13);r.setAttribute("width",44);r.setAttribute("height",26);r.setAttribute("rx",4);r.setAttribute("class","cargo");g.appendChild(r);let tx=document.createElementNS(g.namespaceURI,"text");tx.setAttribute("text-anchor","middle");tx.setAttribute("y",4);tx.setAttribute("class","label");tx.textContent=fmt(c.w,1)+"t";g.appendChild(tx);g.addEventListener("pointerdown",e=>{e.preventDefault();drag={i};g.setPointerCapture(e.pointerId)});g.addEventListener("pointermove",e=>{if(!drag||drag.i!==i)return;let p=svgPoint(e),xy=svgToXY(p.x,p.y);c.x=xy.x;c.y=xy.y;renderCargo();renderCargoList();calculate()});g.addEventListener("pointerup",()=>drag=null);g.addEventListener("pointercancel",()=>drag=null);layer.appendChild(g)});renderCargoList()}
+function renderCargoList(){let root=$("cargoList");root.innerHTML="";cargo.forEach((c,i)=>{let row=document.createElement("div");row.className="cargo-row";row.innerHTML=`<input aria-label="貨物名稱" value="${esc(c.name)}"><input aria-label="重量噸" type="number" min="0" step=".1" value="${c.w}" title="重量 t"><input aria-label="x縱向位置" type="number" step=".1" value="${fmt(c.x,1)}" title="x m"><input aria-label="y橫向位置" type="number" step=".1" value="${fmt(c.y,1)}" title="y m"><button class="danger" title="刪除">×</button>`;let ins=row.querySelectorAll("input");ins[0].oninput=()=>{c.name=ins[0].value};ins[1].oninput=()=>{c.w=+ins[1].value||0;renderCargo();calculate()};ins[2].oninput=()=>{c.x=+ins[2].value||0;renderCargo();calculate()};ins[3].oninput=()=>{c.y=+ins[3].value||0;renderCargo();calculate()};row.querySelector("button").onclick=()=>{cargo.splice(i,1);renderCargo();calculate()};root.appendChild(row)})}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function addCargo(){cargo.push({name:"貨物 "+(cargo.length+1),w:1,x:9,y:0});renderCargo();calculate()}
+function resetCargo(){cargo=[{name:"貨物 1",w:5,x:7,y:-1},{name:"貨物 2",w:3,x:12,y:1}];renderCargo();calculate()}
+function renderTankTable(){
+ let body=$("tankTable").querySelector("tbody"); body.innerHTML="";
+ tanks.forEach((t,i)=>{
+  let tr=document.createElement("tr");
+  tr.innerHTML=`<td>${t.id}. ${esc(t.name)}</td><td><input type="number" min="0" step=".01" value="${t.cap}" data-k="cap"></td><td><input type="number" min="0" step=".01" value="${t.v}" data-k="v" ${t.type==="void"?"disabled":""}></td><td><input type="number" min="0" step=".001" value="${t.rho}" data-k="rho"></td><td><input type="number" step=".1" value="${t.x}" data-k="x"></td><td><input type="number" step=".1" value="${t.y}" data-k="y"></td><td id="weight${i}">${fmt(t.v*t.rho)}</td>`;
+  tr.querySelectorAll("input").forEach(inp=>inp.addEventListener("input",()=>{
+   const key=inp.dataset.k, val=inp.value===""?0:Number(inp.value);
+   t[key]=Number.isFinite(val)?val:0;
+   if(t.cap<0)t.cap=0; if(t.v<0)t.v=0; if(t.v>t.cap)t.v=t.cap;
+   const cell=$("weight"+i); if(cell)cell.textContent=fmt(t.v*t.rho);
+   // Keep the input DOM alive while typing; do not rebuild the table on every keystroke.
+   renderTanks(); calculate();
+  })); body.appendChild(tr);
+ });
+}
+function resetTankVolumes(){tanks.forEach(t=>t.v=0);renderTankTable();renderTanks();calculate()}
+function restoreTankParams(){tanks=JSON.parse(JSON.stringify(initialTanks));renderTankTable();renderTanks();calculate()}
+function solveBounded(currentMx,currentMy,W,desiredL,desiredT,tanklist){
+ // Bounded coordinate descent: minimize target LCG/TCG error while avoiding unnecessary water transfer.
+ let deltas=tanklist.map(t=>0),min=tanklist.map(t=>-t.v),max=tanklist.map(t=>Math.max(0,t.cap-t.v));
+ function score(ds){let ww=W,mx=currentMx,my=currentMy,move=0;ds.forEach((d,i)=>{ww+=d*tanklist[i].rho;mx+=d*tanklist[i].rho*tanklist[i].x;my+=d*tanklist[i].rho*tanklist[i].y;move+=Math.abs(d)});if(ww<=0)return 1e30;let dx=mx/ww-desiredL,dy=my/ww-desiredT;return (dx*dx)+(dy*dy)*3+move*.000015}
+ // Better residual is evaluated against desired CG passed as targetX/W and targetY/W
+ let best=score(deltas),step=.5;
+ for(let pass=0;pass<7;pass++){let changed=true;while(changed){changed=false;for(let i=0;i<deltas.length;i++){let old=deltas[i],bestD=old,bestS=best;for(let cand=Math.max(min[i],old-step);cand<=Math.min(max[i],old+step)+1e-8;cand+=step){deltas[i]=Math.round(cand*100)/100;let sc=score(deltas);if(sc<bestS-1e-12){bestS=sc;bestD=deltas[i]}}deltas[i]=bestD;if(bestS<best-1e-12){best=bestS;changed=true}}}step/=2}
+ return deltas.map(d=>Math.round(d*10)/10)
+}
+function calculate(){
+ const base=+$("baseDisp").value||0,baseL=+$("baseLcg").value||0,baseT=+$("baseTcg").value||0,rho=+$("seaRho").value||1.025,mct=+$("mct").value||0,tpc=+$("tpc").value||0,gm=+$("gm").value||0,lcf=+$("lcf").value||0;
+ const cargoW=cargo.reduce((s,c)=>s+c.w,0),oilTanks=tanks.filter(t=>t.type!=="ballast"&&t.type!=="void"),ballast=tanks.filter(t=>t.type==="ballast");
+ const liquidW=tanks.reduce((s,t)=>s+t.v*t.rho,0),W=base+cargoW+liquidW;
+ let mx=base*baseL+baseL*0+baseT*0; // base moments
+ mx=base*baseL+cargo.reduce((s,c)=>s+c.w*c.x,0)+tanks.reduce((s,t)=>s+t.v*t.rho*t.x,0);
+ let my=base*baseT+cargo.reduce((s,c)=>s+c.w*c.y,0)+tanks.reduce((s,t)=>s+t.v*t.rho*t.y,0);
+ let L=W?mx/W:0,T=W?my/W:0;
+ let trim=(mct>0&&W>0)?Math.atan((((lcf-L)*W/mct)/100)/Math.max(+$('length').value,0.1))*180/Math.PI:NaN,heel=gm?Math.atan(T/gm)*180/Math.PI:NaN;
+ const goalTrim=+$("targetTrim").value||0,goalHeel=+$("targetHeel").value||0;
+ // desired CG target, target moments updated with a small allowance for candidate water mass
+ const desiredTrimCm=Math.tan(goalTrim*Math.PI/180)*Math.max(+$('length').value,0.1)*100; const desiredL=lcf-desiredTrimCm*mct/Math.max(W,1),desiredT=Math.tan(goalHeel*Math.PI/180)*gm;
+ const targetMx=desiredL*W,targetMy=desiredT*W;
+ let ds=solveBounded(mx,my,W,desiredL,desiredT,ballast);
+ let fw=W,fmx=mx,fmy=my;ds.forEach((d,i)=>{fw+=d*rho;fmx+=d*rho*ballast[i].x;fmy+=d*rho*ballast[i].y});
+ const fL=fw?fmx/fw:0,fT=fw?fmy/fw:0,fTrim=(mct>0&&fw>0)?Math.atan((((lcf-fL)*fw/mct)/100)/Math.max(+$('length').value,0.1))*180/Math.PI:NaN,fHeel=gm?Math.atan(fT/gm)*180/Math.PI:NaN;
+ $("oDisp").textContent=fmt(fw);$("oLcg").textContent=fmt(fL,3);$("oTcg").textContent=fmt(fT,3);$("oTrim").textContent=fmt(fTrim,1);$("oHeel").textContent=fmt(fHeel,2);$("oDraft").textContent=fmt(tpc?(fw-base)/tpc:NaN,1);
+ tanks.forEach((t,i)=>{let cell=$("weight"+i);if(cell)cell.textContent=fmt(t.v*t.rho)});
+ let lines=[`貨物總重：${fmt(cargoW)} 噸`, `所有輸入艙櫃液體重量：${fmt(liquidW)} 噸`, `目標：縱傾 ${fmt(goalTrim,2)}°（艉沉正）；橫傾 ${fmt(goalHeel,1)}°（右舷沉正）`,`目前合成 LCG ${fmt(L,3)} m；TCG ${fmt(T,3)} m；縱傾估算 ${fmt(trim,2)}°；橫傾估算 ${fmt(heel,2)}°`,`\n壓載艙候選調整（m³）：`];
+ ballast.forEach((t,i)=>lines.push(`${t.id}. ${t.name}｜目前 ${fmt(t.v,1)} / ${fmt(t.cap,1)} m³｜${ds[i]>=0?"+":""}${fmt(ds[i],1)} m³｜候選新水量 ${fmt(t.v+ds[i],1)} m³`));
+ lines.push(`\n候選調整後排水量 ${fmt(fw)} 噸；LCG ${fmt(fL,3)} m；TCG ${fmt(fT,3)} m；縱傾 ${fmt(fTrim,2)}°；橫傾 ${fmt(fHeel,2)}°。`);
+ lines.push(`平均吃水變化粗估 ${fmt(tpc?(fw-base)/tpc:NaN,1)} cm（TPC 法，非實際艏艉吃水預測）。`);
+ lines.push(`\n注意：算法只根據簡化重量矩尋找數學候選值；沒有計算自由液面、艙容曲線、實際水線面慣性矩、破艙穩度、甲板局部承載、泵浦流量與閥門連通限制。`);
+ $("summary").textContent=lines.join("\n");
+ const invalid=base<=0||mct<=0||tpc<=0||gm<=0||tanks.some(t=>t.v<0||t.v>t.cap);
+ $("status").className="status "+(invalid?"bad":"");$("status").textContent=invalid?"輸入有誤：請檢查排水量、MCT、TPC、GM，以及各艙液量不得超過容量。":"已更新簡化配平候選方案。請先確認圖面左舷 y−／右舷 y＋與實船一致；候選數值僅供覆核，不能直接作為現場泵浦指令。";
+}
+function saveState(){let data={cargo,tanks,fields:["length","beam","baseDisp","baseLcg","baseTcg","seaRho","lcf","mct","tpc","gm","targetTrim","targetHeel"].reduce((o,id)=>(o[id]=$(id).value,o),{})};localStorage.setItem("damen1908TrimState",JSON.stringify(data));$("status").textContent="已將設定儲存在此瀏覽器。"}
+function loadState(){let raw=localStorage.getItem("damen1908TrimState");if(!raw){$("status").textContent="此瀏覽器沒有已儲存的設定。";return}let d=JSON.parse(raw);cargo=d.cargo||cargo;tanks=d.tanks||tanks;Object.entries(d.fields||{}).forEach(([id,v])=>$(id).value=v);renderTankTable();renderTanks();renderCargo();calculate()}
+renderTankTable();renderTanks();renderCargo();calculate();
+</script>
+</body></html>
