@@ -9,6 +9,16 @@
       "date": "",
       "published": true,
       "uploadedAt": ""
+    },
+    {
+      "name": "大本9號 CAT 3408 主機保養自檢報告",
+      "description": "CAT 3408 主機保養自檢報告（PDF，1頁）",
+      "file": "reports/CAT3408_Main_Engine_Inspection_Report.pdf",
+      "id": "cat3408-main-engine-inspection-report-20261102",
+      "category": "主機自檢報告",
+      "date": "2026-11-02",
+      "published": true,
+      "uploadedAt": "2026-11-02"
     }
   ]
 }
