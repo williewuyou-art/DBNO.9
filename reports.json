@@ -19,6 +19,16 @@
       "date": "2026-11-02",
       "published": true,
       "uploadedAt": "2026-11-02"
+    },
+    {
+      "name": "大本9號 船圖",
+      "description": "大本9號船圖（PDF）",
+      "file": "reports/imgw-108140942_261104_100829.pdf",
+      "id": "imgw-108140942_261104_100829-20261103",
+      "category": "大本9號船圖",
+      "date": "2026-11-03",
+      "published": true,
+      "uploadedAt": "2026-11-03"
     }
   ]
 }
