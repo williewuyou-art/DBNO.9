@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大本9號｜報告中心</title><style>
+:root {
+  --navy: #102a40;
+  --blue: #176b87;
+  --bg: #f2f6f8;
+  --ink: #203542;
+  --muted: #637b88;
+  --line: #d5e1e7;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: clamp(14px, 3vw, 30px);
+  background: var(--bg);
+  font-family: system-ui, -apple-system, "Noto Sans TC",
+    "Microsoft JhengHei", sans-serif;
+  color: var(--ink);
+}
+
+header {
+  background: linear-gradient(120deg, #102a40, #176b87);
+  color: white;
+  padding: 23px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+
+header h1 {
+  font-size: clamp(22px, 3vw, 30px);
+  margin: 0 0 7px;
+}
+
+header p {
+  margin: 0;
+  color: #d9eaf0;
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+h2 {
+  font-size: 17px;
+  color: var(--navy);
+  margin: 0 0 12px;
+}
+
+.empty {
+  border: 1px dashed #b9cbd4;
+  background: #f9fbfc;
+  border-radius: 10px;
+  padding: 22px;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.filelist {
+  display: grid;
+  gap: 10px;
+}
+
+.file {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 13px;
+}
+
+.file strong { display: block; }
+
+.file small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.download {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  text-decoration: none;
+  padding: 10px 13px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.muted {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+#passwordGate {
+  max-width: 460px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+#passwordInput {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 16px;
+  margin: 12px 0;
+}
+
+button {
+  border: 0;
+  background: var(--blue);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#errorMessage {
+  color: #c62828;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+#reportContent { display: none; }
+
+@media (max-width: 550px) {
+  .file { align-items: flex-start; flex-direction: column; }
+}
+
+/* PDF 線上預覽視窗 */
+.actions { display:flex; gap:8px; flex-wrap:wrap; }
+.action-btn {
+  display:inline-block; border:0; border-radius:8px; padding:10px 13px;
+  font-size:13px; font-weight:700; text-decoration:none; cursor:pointer;
+  background:var(--blue); color:white;
+}
+.action-btn.secondary { background:#e7eef2; color:var(--navy); }
+#previewModal {
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(7,20,30,.82); padding:16px;
+}
+#previewModal.open { display:flex; flex-direction:column; }
+.preview-shell {
+  width:min(1100px,100%); height:100%; margin:auto; background:white;
+  border-radius:12px; overflow:hidden; display:flex; flex-direction:column;
+}
+.preview-toolbar {
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:10px 14px; background:#102a40; color:white;
+}
+.preview-toolbar strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.preview-toolbar .action-btn { padding:8px 11px; }
+#previewFrame { width:100%; flex:1; border:0; background:#eef2f4; }
+.preview-hint { padding:8px 12px; margin:0; font-size:12px; color:#637b88; background:#f5f8fa; }
+@media (max-width:550px) {
+  #previewModal { padding:0; }
+  .preview-shell { border-radius:0; }
+  .preview-toolbar { flex-wrap:wrap; }
+}
+</style></head><body><header>
+  <h1>大本9號｜報告下載中心</h1>
+  <p>工程完工報告、自檢報告及施工紀錄，可直接線上預覽，亦可選擇下載。</p>
+</header><!-- 密碼驗證區 --><section class="card" id="passwordGate">
+  <h2>🔒 報告存取驗證</h2>
+  <p>請輸入存取密碼，驗證後即可線上預覽或下載報告。</p>  <form id="passwordForm">
+    <input
+      id="passwordInput"
+      type="password"
+      placeholder="請輸入存取密碼"
+      autocomplete="current-password"
+      required
+    >
+    <br>
+    <button type="submit">驗證並進入</button>
+  </form>  <div id="errorMessage" role="alert"></div>
+</section><!-- 驗證成功後顯示 --><main id="reportContent">
+  <section class="card">
+    <h2>報告列表</h2><div id="files" class="filelist">
+  <div class="empty">正在載入報告清單…</div>
+</div>
+<button type="button" id="logoutButton">登出並鎖定</button>
+
+  </section>
+</main>
+
+<!-- PDF 線上預覽視窗 -->
+<div id="previewModal" role="dialog" aria-modal="true" aria-label="報告預覽">
+  <div class="preview-shell">
+    <div class="preview-toolbar">
+      <strong id="previewTitle">報告預覽</strong>
+      <div class="actions">
+        <a id="openPreviewTab" class="action-btn secondary" href="#" target="_blank" rel="noopener">新分頁開啟</a>
+        <a id="previewDownload" class="action-btn" href="#" download>下載</a>
+        <button type="button" class="action-btn secondary" id="closePreview">關閉</button>
+      </div>
+    </div>
+    <p class="preview-hint">若預覽區無法顯示 PDF，請使用「新分頁開啟」或「下載」。</p>
+    <iframe id="previewFrame" title="PDF 報告預覽"></iframe>
+  </div>
+</div>
+
+<script>
+/*
+ * 報告存取密碼
+ * 修改密碼時，請同步修改此處。
+ */
+const REPORT_PASSWORD = "DB09";
+
+const gate = document.getElementById("passwordGate");
+const content = document.getElementById("reportContent");
+const form = document.getElementById("passwordForm");
+const input = document.getElementById("passwordInput");
+const errorMessage = document.getElementById("errorMessage");
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  if (input.value === REPORT_PASSWORD) {
+    sessionStorage.setItem("dabenNo9ReportUnlocked", "true");
+    showReports();
+  } else {
+    errorMessage.textContent = "密碼錯誤，請重新輸入。";
+    input.value = "";
+    input.focus();
+  }
+});
+
+function showReports() {
+  gate.style.display = "none";
+  content.style.display = "block";
+  errorMessage.textContent = "";
+  loadFiles();
+}
+
+document.getElementById("logoutButton").addEventListener("click", function() {
+  sessionStorage.removeItem("dabenNo9ReportUnlocked");
+  content.style.display = "none";
+  gate.style.display = "block";
+  input.value = "";
+  input.focus();
+});
+
+async function loadFiles() {
+  const root = document.getElementById("files");
+  root.innerHTML = '<div class="empty">正在載入報告清單…</div>';
+
+  try {
+    const response = await fetch(
+      "reports.json?ts=" + Date.now(),
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error("報告清單讀取失敗");
+    }
+
+    const data = await response.json();
+
+    // 只顯示已上架的報告
+    const list = (data.files || []).filter(
+      item => item.published !== false
+    );
+
+    root.innerHTML = "";
+
+    if (list.length === 0) {
+      root.innerHTML = '<div class="empty">目前尚未上架報告。</div>';
+      return;
+    }
+
+    list.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "file";
+
+      const info = document.createElement("div");
+      const name = document.createElement("strong");
+      const desc = document.createElement("small");
+
+      name.textContent = item.name || "未命名文件";
+
+      desc.textContent = [
+        item.category,
+        item.date,
+        item.description
+      ].filter(Boolean).join("｜");
+
+      info.append(name, desc);
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const preview = document.createElement("button");
+      preview.type = "button";
+      preview.className = "action-btn";
+      preview.textContent = "線上預覽";
+      preview.addEventListener("click", () => openPreview(item));
+
+      const link = document.createElement("a");
+      link.className = "action-btn secondary";
+      link.href = item.file;
+      link.textContent = "下載 PDF";
+      link.setAttribute("download", "");
+
+      actions.append(preview, link);
+      row.append(info, actions);
+      root.append(row);
+    });
+
+  } catch (error) {
+    root.innerHTML =
+      '<div class="empty">目前無法載入報告清單，請稍後重新整理。</div>';
+  }
+}
+
+// PDF 線上預覽：iframe 內使用瀏覽器 PDF 檢視器
+const previewModal = document.getElementById("previewModal");
+const previewFrame = document.getElementById("previewFrame");
+const previewTitle = document.getElementById("previewTitle");
+const openPreviewTab = document.getElementById("openPreviewTab");
+const previewDownload = document.getElementById("previewDownload");
+
+function openPreview(item) {
+  const fileUrl = item.file;
+  previewTitle.textContent = item.name || "報告預覽";
+  previewFrame.src = fileUrl + "#toolbar=1&navpanes=0&view=FitH";
+  openPreviewTab.href = fileUrl;
+  previewDownload.href = fileUrl;
+  previewModal.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closePreview() {
+  previewModal.classList.remove("open");
+  previewFrame.src = "about:blank";
+  document.body.style.overflow = "";
+}
+
+document.getElementById("closePreview").addEventListener("click", closePreview);
+previewModal.addEventListener("click", event => {
+  if (event.target === previewModal) closePreview();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && previewModal.classList.contains("open")) closePreview();
+});
+
+// 同一分頁工作階段內已驗證，就不必重複輸入
+if (sessionStorage.getItem("dabenNo9ReportUnlocked") === "true") {
+  showReports();
+}
+</script></body>
+</html>
